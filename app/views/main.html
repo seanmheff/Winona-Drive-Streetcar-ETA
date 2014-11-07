@@ -1,8 +1,23 @@
-<div class="row">
-  <div class="col-md-8">{{nextStreetcarWestbound}}</div>
+<div class="row" style="height:50%">
+  <div class="col-md-8">
+    <h1 class="text-center">West - 512 St Clair towards Keele</h1>
+    <h1 data-fittext ng-model="nextStreetcarWestbound">{{nextStreetcarWestbound}}</h1>
+   </div>
   <div class="col-md-4">
     <ul ng-repeat="time in streetcarsWestbound">
-      <li style="list-style-type:none;">{{time}}</li>
+      <li style="list-style-type:none;" data-fittext ng-model="time">{{time}}</li>
+    </ul>
+  </div>
+</div>
+
+<div class="row" style="height:50%">
+  <div class="col-md-8">
+    <h1 class="text-center">East - 512 St Clair towards St Clair Station</h1>
+    <h1 data-fittext ng-model="nextStreetcarEastbound">{{nextStreetcarEastbound}}</h1>
+   </div>
+  <div class="col-md-4">
+    <ul ng-repeat="time in streetcarsEastbound">
+      <li style="list-style-type:none;" data-fittext ng-model="time">{{time}}</li>
     </ul>
   </div>
 </div>
