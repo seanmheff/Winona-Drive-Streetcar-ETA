@@ -3,21 +3,32 @@
 
 html, body {
   height: 100%;
+  width: 100%;
 }
 
-/*body {
+body {
   padding-top: 20px;
   padding-bottom: 20px;
-}*/
+}
+
+h1 {
+  text-align: center;
+}
+
+li {
+  list-style-type: none;
+  text-align: center;
+  font-size: 10.0vh;
+}
+
+.big-time {
+  font-size: 32.0vh;
+}
 
 .container {
     display:table;
     width: 100%;
     height: 100%;
-    margin-top: -50px;
-    padding-top: 50px;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
 }​
 
 .footer {
