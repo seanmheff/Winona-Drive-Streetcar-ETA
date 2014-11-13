@@ -9,6 +9,8 @@ html, body {
 body {
   padding-top: 20px;
   padding-bottom: 20px;
+  background-color: #95A5A6;
+  color: #FFF;
 }
 
 h1 {
@@ -23,15 +25,21 @@ li {
   font-size: 8.0vh;
 }
 
+.timer{
+  position: relative;
+  top: 50%;
+  transform: translateY(25%);
+}
+
 .big-time {
   font-size: 32.0vh;
 }
 
 .footer {
+  margin-top:30px;
   padding-left: 15px;
   padding-right: 15px;
   padding-top: 50px;
-  color: #777;
   border-top: 1px solid #e5e5e5;
 }
 
