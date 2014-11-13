@@ -10,13 +10,15 @@
 angular.module('ttcApp')
 	.controller('MainCtrl', function ($scope, $http) {
 
+		$scope.happy = true;
+
 		function compare(a,b) {
 			if (a.seconds < b.seconds)
 				 return -1;
 			if (a.seconds > b.seconds)
 				return 1;
 			return 0;
-		}
+		};
 
 		var getWestboundInfo = function() {
 			$http.get('http://webservices.nextbus.com/service/publicJSONFeed?command=predictions&a=ttc&r=512&s=14395').
@@ -76,6 +78,16 @@ angular.module('ttcApp')
 				});
 		};
 
+		var myTimer = function() {
+			if($scope.happy === true){
+				$scope.sad = true;
+				$scope.happy = false;
+			} else {
+				$scope.sad = false;
+				$scope.happy = true;
+			}
+		};
+
 		// // Westbound tram
 		getWestboundInfo();
 		setInterval(getWestboundInfo, 10000);
@@ -83,4 +95,8 @@ angular.module('ttcApp')
 		// Eastbound tram
 		getEastboundInfo();
 		setInterval(getEastboundInfo, 10000);
+
+		// myTimer();
+		setInterval(myTimer, 2000);
+
 	});
