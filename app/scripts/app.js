@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 angular
-  .module('ttcApp', ['ngFitText']);
+  .module('ttcApp', []);
 
 String.prototype.toHHMMSS = function () {
   var sec_num = parseInt(this, 10); // don't forget the second param
