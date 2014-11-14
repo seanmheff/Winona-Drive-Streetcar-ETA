@@ -9,20 +9,18 @@
  */
 angular.module('ttcApp')
 	.controller('MainCtrl', function ($scope, $http) {
-
 		$scope.happy = true;
+		$scope.sad = false;
 
 		function compare(a,b) {
-			if (a.seconds < b.seconds)
-				 return -1;
-			if (a.seconds > b.seconds)
-				return 1;
+			if (a.seconds < b.seconds) { return -1; }
+			if (a.seconds > b.seconds) { return 1; }
 			return 0;
-		};
+		}
 
 		var getWestboundInfo = function() {
 			$http.get('http://webservices.nextbus.com/service/publicJSONFeed?command=predictions&a=ttc&r=512&s=14395').
-				success(function(data, status, headers, config) {
+				success(function(data) {
 
 					// Check for arrays...
 					var cars = null;
@@ -40,18 +38,20 @@ angular.module('ttcApp')
 
 					for (var i=1; i<cars.length; i++) {
 						// Show a max of 3
-						if (i === 4) break;
+						if (i === 4) { break; }
 						$scope.streetcarsWestbound.push(cars[i].seconds.toHHMMSS());
 					}
+
+					switchViews();
 				}).
-				error(function(data, status, headers, config) {
+				error(function(data) {
 					console.log(data);
 				});
 		};
 
 		var getEastboundInfo = function() {
 			$http.get('http://webservices.nextbus.com/service/publicJSONFeed?command=predictions&a=ttc&r=512&s=14388').
-				success(function(data, status, headers, config) {
+				success(function(data) {
 
 					// Check for arrays...
 					var cars = null;
@@ -69,34 +69,34 @@ angular.module('ttcApp')
 
 					for (var i=1; i<cars.length; i++) {
 						// Show a max of 3
-						if (i === 4) break;
+						if (i === 4) { break; }
 						$scope.streetcarsEastbound.push(cars[i].seconds.toHHMMSS());
 					}
+
+					switchViews();
 				}).
-				error(function(data, status, headers, config) {
+				error(function(data) {
 					console.log(data);
 				});
 		};
 
-		var myTimer = function() {
-			if($scope.happy === true){
-				$scope.sad = true;
-				$scope.happy = false;
-			} else {
-				$scope.sad = false;
-				$scope.happy = true;
-			}
+		var switchViews = function() {
+			$scope.sad = !$scope.sad;
+			$scope.happy = !$scope.happy;
 		};
 
-		// // Westbound tram
-		getWestboundInfo();
-		setInterval(getWestboundInfo, 10000);
-
-		// Eastbound tram
 		getEastboundInfo();
-		setInterval(getEastboundInfo, 10000);
-
-		// myTimer();
-		setInterval(myTimer, 2000);
+		var heading = false;
+		/**
+		 * Our main loop
+		 * Perform main application logic
+		 **/
+		setInterval(function() {
+			if (heading) {
+				getEastboundInfo();
+			} else {
+				getWestboundInfo();
+			}
+		}, 10000);
 
 	});

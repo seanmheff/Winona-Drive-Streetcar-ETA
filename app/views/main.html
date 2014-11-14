@@ -2,13 +2,13 @@
   <div class="row">
     <div class="col-sm-12">
       <h1>West - 512 St Clair towards Keele</h1>
-      <h1 class="big-time" ng-model="nextStreetcarWestbound">{{nextStreetcarWestbound}}</h1>        
+      <h1 class="big-time">{{nextStreetcarWestbound}}</h1>
     </div>
   </div>
   <div class="row">
     <ul>
       <div ng-repeat="time in streetcarsWestbound" class="col-sm-4">
-        <li class="text-center" ng-model="time">{{time}}</li>
+        <li class="text-center">{{time}}</li>
       </div>
     </ul>
   </div>
@@ -16,14 +16,14 @@
 <div ng-show="sad" ng-hide="happy">
   <div class="row">
     <div class="col-sm-12">
-      <h1>East - 512 St Clair towards St Clair Station</h1>   
-      <h1 class="big-time" ng-model="nextStreetcarEastbound">{{nextStreetcarEastbound}}</h1>     
+      <h1>East - 512 St Clair towards St Clair Station</h1>
+      <h1 class="big-time">{{nextStreetcarEastbound}}</h1>
     </div>
   </div>
   <div class="row">
     <ul>
       <div ng-repeat="time in streetcarsEastbound" class="col-sm-4">
-        <li class="text-center" ng-model="time">{{time}}</li>
+        <li class="text-center">{{time}}</li>
       </div>
     </ul>
   </div>
