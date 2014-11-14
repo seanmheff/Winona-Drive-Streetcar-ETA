@@ -8,95 +8,96 @@
  * Controller of the ttcApp
  */
 angular.module('ttcApp')
-	.controller('MainCtrl', function ($scope, $http) {
-		$scope.happy = true;
-		$scope.sad = false;
+  .controller('MainCtrl', function ($scope, $http) {
+    $scope.happy = true;
+    $scope.sad = false;
 
-		function compare(a,b) {
-			if (a.seconds < b.seconds) { return -1; }
-			if (a.seconds > b.seconds) { return 1; }
-			return 0;
-		}
+    function compare(a,b) {
+      if (a.seconds < b.seconds) { return -1; }
+      if (a.seconds > b.seconds) { return 1; }
+      return 0;
+    }
 
-		var getWestboundInfo = function() {
-			$http.get('http://webservices.nextbus.com/service/publicJSONFeed?command=predictions&a=ttc&r=512&s=14395').
-				success(function(data) {
+    var getWestboundInfo = function() {
+      $http.get('http://webservices.nextbus.com/service/publicJSONFeed?command=predictions&a=ttc&r=512&s=14395').
+        success(function(data) {
 
-					// Check for arrays...
-					var cars = null;
-					if (angular.isArray(data.predictions.direction)) {
-						cars = data.predictions.direction[0].prediction.concat(data.predictions.direction[1].prediction);
+          // Check for arrays...
+          var cars = null;
+          if (angular.isArray(data.predictions.direction)) {
+            cars = data.predictions.direction[0].prediction.concat(data.predictions.direction[1].prediction);
 
-						// Sort arrays by closest time..
-						cars.sort(compare);
-					} else {
-						cars = data.predictions.direction.prediction;
-					}
+            // Sort arrays by closest time..
+            cars.sort(compare);
+          } else {
+            cars = data.predictions.direction.prediction;
+          }
 
-					$scope.nextStreetcarWestbound = cars[0].seconds.toHHMMSS();
-					$scope.streetcarsWestbound = [];
+          $scope.nextStreetcarWestbound = cars[0].seconds.toHHMMSS();
+          $scope.streetcarsWestbound = [];
 
-					for (var i=1; i<cars.length; i++) {
-						// Show a max of 3
-						if (i === 4) { break; }
-						$scope.streetcarsWestbound.push(cars[i].seconds.toHHMMSS());
-					}
+          for (var i=1; i<cars.length; i++) {
+            // Show a max of 3
+            if (i === 4) { break; }
+            $scope.streetcarsWestbound.push(cars[i].seconds.toHHMMSS());
+          }
 
-					switchViews();
-				}).
-				error(function(data) {
-					console.log(data);
-				});
-		};
+          switchViews();
+        }).
+        error(function(data) {
+          console.log(data);
+        });
+    };
 
-		var getEastboundInfo = function() {
-			$http.get('http://webservices.nextbus.com/service/publicJSONFeed?command=predictions&a=ttc&r=512&s=14388').
-				success(function(data) {
+    var getEastboundInfo = function() {
+      $http.get('http://webservices.nextbus.com/service/publicJSONFeed?command=predictions&a=ttc&r=512&s=14388').
+        success(function(data) {
 
-					// Check for arrays...
-					var cars = null;
-					if (angular.isArray(data.predictions.direction)) {
-						cars = data.predictions.direction[0].prediction.concat(data.predictions.direction[1].prediction);
+          // Check for arrays...
+          var cars = null;
+          if (angular.isArray(data.predictions.direction)) {
+            cars = data.predictions.direction[0].prediction.concat(data.predictions.direction[1].prediction);
 
-						// Sort arrays by closest time..
-						cars.sort(compare);
-					} else {
-						cars = data.predictions.direction.prediction;
-					}
+            // Sort arrays by closest time..
+            cars.sort(compare);
+          } else {
+            cars = data.predictions.direction.prediction;
+          }
 
-					$scope.nextStreetcarEastbound = cars[0].seconds.toHHMMSS();
-					$scope.streetcarsEastbound = [];
+          $scope.nextStreetcarEastbound = cars[0].seconds.toHHMMSS();
+          $scope.streetcarsEastbound = [];
 
-					for (var i=1; i<cars.length; i++) {
-						// Show a max of 3
-						if (i === 4) { break; }
-						$scope.streetcarsEastbound.push(cars[i].seconds.toHHMMSS());
-					}
+          for (var i=1; i<cars.length; i++) {
+            // Show a max of 3
+            if (i === 4) { break; }
+            $scope.streetcarsEastbound.push(cars[i].seconds.toHHMMSS());
+          }
 
-					switchViews();
-				}).
-				error(function(data) {
-					console.log(data);
-				});
-		};
+          switchViews();
+        }).
+        error(function(data) {
+          console.log(data);
+        });
+    };
 
-		var switchViews = function() {
-			$scope.sad = !$scope.sad;
-			$scope.happy = !$scope.happy;
-		};
+    var switchViews = function() {
+      $scope.sad = !$scope.sad;
+      $scope.happy = !$scope.happy;
+    };
 
-		getEastboundInfo();
-		var heading = false;
-		/**
-		 * Our main loop
-		 * Perform main application logic
-		 **/
-		setInterval(function() {
-			if (heading) {
-				getEastboundInfo();
-			} else {
-				getWestboundInfo();
-			}
-		}, 8000);
+    getEastboundInfo();
+    var heading = false;
+    /**
+     * Our main loop
+     * Perform main application logic
+     **/
+    setInterval(function() {
+      if (heading) {
+        getEastboundInfo();
+      } else {
+        getWestboundInfo();
+      }
+      heading = !heading;
+    }, 8000);
 
-	});
+  });
