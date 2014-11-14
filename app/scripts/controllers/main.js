@@ -97,6 +97,6 @@ angular.module('ttcApp')
 			} else {
 				getWestboundInfo();
 			}
-		}, 10000);
+		}, 8000);
 
 	});
