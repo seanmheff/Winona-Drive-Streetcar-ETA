@@ -18,13 +18,25 @@ angular.module('ttcApp')
       return 0;
     }
 
+    var validateData = function (data) {
+      if (!angular.isArray(data.predictions.direction[0].prediction)) {
+        data.predictions.direction[0].prediction = [data.predictions.direction[0].prediction];
+      }
+      if (!angular.isArray(data.predictions.direction[1].prediction)) {
+        data.predictions.direction[1].prediction = [data.predictions.direction[1].prediction];
+      }
+    };
+
     var getWestboundInfo = function() {
       $http.get('http://webservices.nextbus.com/service/publicJSONFeed?command=predictions&a=ttc&r=512&s=14395').
         success(function(data) {
-
+          
           // Check for arrays...
           var cars = null;
           if (angular.isArray(data.predictions.direction)) {
+            // Check data is ok
+            validateData(data);
+            
             cars = data.predictions.direction[0].prediction.concat(data.predictions.direction[1].prediction);
 
             // Sort arrays by closest time..
@@ -56,6 +68,9 @@ angular.module('ttcApp')
           // Check for arrays...
           var cars = null;
           if (angular.isArray(data.predictions.direction)) {
+            // Check data is ok
+            validateData(data);
+
             cars = data.predictions.direction[0].prediction.concat(data.predictions.direction[1].prediction);
 
             // Sort arrays by closest time..
